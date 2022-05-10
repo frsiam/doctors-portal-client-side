@@ -1,9 +1,17 @@
+import { Route, Routes } from 'react-router-dom';
 import './App.css';
+import About from './Pages/About/About';
+import Home from './Pages/Home/Home';
+import Header from './Pages/Shared/Header';
 
 function App() {
   return (
-    <div className="App">
-      <h1 className='text-4xl text-rose-600 font-semibold'>Final Project of Complete Web Development Course With Jhankar Mahbub</h1>
+    <div>
+      <Header />
+      <Routes>
+        <Route path='/' element={<Home />} />
+        <Route path='/about' element={<About />} />
+      </Routes>
     </div>
   );
 }
