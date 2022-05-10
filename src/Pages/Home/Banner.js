@@ -4,7 +4,7 @@ import bgchair from '../../assets/images/bg.png';
 
 const Banner = () => {
     return (
-        <div class="hero min-h-screen px-12" style={{ backgroundImage: `url(${bgchair})` }}>
+        <div class="hero min-h-screen" style={{ backgroundImage: `url(${bgchair})` }}>
             <div class="hero-content flex-col lg:flex-row-reverse">
                 <img src={chair} class="max-w-sm rounded-lg shadow-2xl" />
                 <div>
