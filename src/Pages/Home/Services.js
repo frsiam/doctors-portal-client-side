@@ -2,6 +2,7 @@ import React from 'react';
 import cavity from '../../assets/images/cavity.png';
 import fluoride from '../../assets/images/fluoride.png';
 import whitening from '../../assets/images/whitening.png';
+import ServiceDetails from './ServiceDetails';
 import ServicesCard from './ServicesCard';
 
 const Services = () => {
@@ -26,7 +27,7 @@ const Services = () => {
         }
     ];
     return (
-        <div className='my-32'>
+        <div className='mt-32'>
             <div className='text-center'>
                 <h1 className='text-primary uppercase text-xl font-bold'>Our Services</h1>
                 <h1 className='text-4xl mt-2 text-accent'>Services We Provide</h1>
@@ -36,6 +37,7 @@ const Services = () => {
                     services.map(service => <ServicesCard key={service.id} service={service} />)
                 }
             </div>
+            <ServiceDetails />
         </div>
     );
 };
