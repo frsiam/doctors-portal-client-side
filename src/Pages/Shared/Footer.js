@@ -5,7 +5,7 @@ const Footer = () => {
     const year = new Date().getFullYear();
     return (
         <footer style={{ background: `url(${footer})`, backgroundSize: 'cover' }} className="p-10">
-            <div className="footer justify-center jg:justify-between">
+            <div className="footer justify-start lg:justify-between">
                 <div>
                     <span className="footer-title">Services</span>
                     <a className="link link-hover">Branding</a>

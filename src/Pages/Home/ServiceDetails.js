@@ -4,7 +4,7 @@ import PrimaryButton from '../Shared/PrimaryButton';
 
 const ServiceDetails = () => {
     return (
-        <div className="hero min-h-screen mt-14 lg:mt-36">
+        <div className="hero min-h-screen mt-14 md:mt-4">
             <div className="hero-content flex-col lg:flex-row gap-24">
                 <img src={treatement} className="max-w-full lg:max-w-sm rounded-lg shadow-xl" alt='' />
                 <div>
