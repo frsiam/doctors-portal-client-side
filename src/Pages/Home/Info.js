@@ -9,7 +9,9 @@ const Info = () => {
     return (
         <div className='grid grid-cols-1 lg:grid-cols-3 gap-4'>
             <InfoCard cardbg='bg-gradient-to-r from-secondary to-primary' cardTitle='Opening Hours' text='Click the button to listen on Spotiwhy app.' img={clock}></InfoCard>
+
             <InfoCard cardbg='bg-accent' cardTitle='Visit Our Location' text='Shamoly Square, Dhaka' img={marker}></InfoCard>
+
             <InfoCard cardbg='bg-gradient-to-r from-primary to-secondary' cardTitle='Contact Us Now' text='+123 6543 09842' img={phone}></InfoCard>
         </div>
     );
