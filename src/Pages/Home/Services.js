@@ -20,7 +20,7 @@ const Services = () => {
             img: cavity
         },
         {
-            _id: 1,
+            _id: 3,
             title: 'Teeth Whitening',
             info: 'If a dog chews shoes whose shoes does he choose 3',
             img: whitening
@@ -34,7 +34,7 @@ const Services = () => {
             </div>
             <div className='grid grid-cols-1 lg:grid-cols-3 gap-5 mt-16'>
                 {
-                    services.map(service => <ServicesCard key={service.id} service={service} />)
+                    services.map(service => <ServicesCard key={service._id} service={service} />)
                 }
             </div>
             <ServiceDetails />
