@@ -1,6 +1,6 @@
 import React from 'react';
 
-const BookingCard = ({ booking }) => {
+const BookingCard = ({ booking, setTreatment }) => {
     return (
         <div className="card lg:max-w-lg shadow-md">
             <div className="card-body items-center text-center">
@@ -14,7 +14,7 @@ const BookingCard = ({ booking }) => {
                 </p>
                 <p>{booking.slots.length} {booking.slots.length > 1 ? 'Spaces' : 'Space'} are available</p>
                 <div className="card-actions justify-center">
-                    <button disabled={booking.slots.length === 0} className="btn btn-secondary bg-gradient-to-r from-secondary to-primary text-white uppercase">Booking Appointment</button>
+                    <label for='booking-modal' onClick={() => setTreatment(booking)} disabled={booking.slots.length === 0} className="btn btn-secondary bg-gradient-to-r from-secondary to-primary text-white uppercase">Booking Appointment</label>
                 </div>
             </div>
         </div>
