@@ -1,19 +1,36 @@
+import { format } from 'date-fns';
 import React from 'react';
 
-const BookingModal = ({ treatment }) => {
+const BookingModal = ({ treatment, date, setTreatment }) => {
     const { name, slots } = treatment;
+
+    const handleBooking = (event) => {
+        event.preventDefault();
+        const slot = event.target.timeSlot.value;
+        console.log(slot)
+        setTreatment(null)
+    }
     return (
         <div>
-            <input type="checkbox" id="booking-modal" class="modal-toggle" />
-            <div class="modal modal-bottom sm:modal-middle">
-                <div class="modal-box">
-                    <label for="booking-modal" class="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
-                    <h1>{name}</h1>
-                    <h3 class="font-bold text-lg">Congratulations random Interner user!</h3>
-                    <p class="py-4">You've been selected for a chance to get one year of subscription to use Wikipedia for free!</p>
-                    <div class="modal-action">
-                        <label for="booking-modal" class="btn">Yay!</label>
-                    </div>
+            <input type="checkbox" id="booking-modal" className="modal-toggle" />
+            <div className="modal modal-bottom sm:modal-middle">
+                <div className="modal-box">
+                    <label for="booking-modal" className="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
+                    <h3 className="font-bold text-lg">{name}</h3>
+                    <form onSubmit={handleBooking} className='grid grid-cols-1 gap-4 justify-items-center mt-5'>
+                        <input type="text" value={format(date, 'PP')} placeholder="Type here" className="input input-bordered w-full max-w-xs" disabled />
+
+                        <select name='timeSlot' class="select select-bordered w-full max-w-xs">
+                            {
+                                slots.map(slot => <option value={slot}>{slot}</option>)
+                            }
+                        </select>
+                        <input name='name' type="text" placeholder="Your Name" className="input input-bordered w-full max-w-xs" />
+
+                        <input name='email' type="email" placeholder="Your Email" className="input input-bordered w-full max-w-xs" />
+                        <input name='phone' type="number" placeholder="Phone Number" className="input input-bordered w-full max-w-xs" />
+                        <input type="submit" value='Submit' placeholder="Type here" className="btn btn-secondary w-full max-w-xs" />
+                    </form>
                 </div>
             </div>
         </div>
