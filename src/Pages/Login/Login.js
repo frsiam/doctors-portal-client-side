@@ -1,21 +1,42 @@
 import React, { useEffect } from 'react';
 import { useSignInWithGoogle } from 'react-firebase-hooks/auth';
+import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import { useForm } from 'react-hook-form';
 import auth from '../../firebase.init';
+import Loading from '../Shared/Loading';
 
 const Login = () => {
-    const [signInWithGoogle, user, loading, error] = useSignInWithGoogle(auth);
-    const { register, formState: { errors }, handleSubmit } = useForm();
+    const [signInWithGoogle, gUser, gLoading, gError] = useSignInWithGoogle(auth);
+    const [
+        signInWithEmailAndPassword,
+        user,
+        loading,
+        error,
+    ] = useSignInWithEmailAndPassword(auth);
 
-    // useEffect(() => {
-    //     if (user) {
-    //         console.log(user)
-    //         console.dir(user)
-    //     }
-    // }, [user])
+    const { register, formState: { errors }, handleSubmit } = useForm();
+    let signInError;
+
+    useEffect(() => {
+        if (user) {
+            console.log(user)
+            console.dir(user)
+        }
+    }, [user])
+
+    if (error || gError) {
+        signInError = <p className='text-red-600'>{error?.message || gError?.message}</p>
+    }
+
+    if (loading || gLoading) {
+        return <Loading />
+    }
+
 
     const onSubmit = data => {
         console.log(data);
+        const { email, password } = data;
+        signInWithEmailAndPassword(email, password)
     };
 
     return (
@@ -79,6 +100,7 @@ const Login = () => {
                                 {errors.password?.type === 'minLength' && <span className="label-text-alt text-red-600">{errors.password.message}</span>}
                                 {/* pattern mismatch error */}
                                 {/* {errors.password?.type === 'pattern' && <span className="label-text-alt text-red-600">{errors.password.message}</span>} */}
+                                {signInError}
                             </label>
                         </div>
                         <input className='btn w-full max-w-xm' type="submit" value='Login' />
