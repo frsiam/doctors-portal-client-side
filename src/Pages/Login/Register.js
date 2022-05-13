@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useCreateUserWithEmailAndPassword, useSignInWithGoogle } from 'react-firebase-hooks/auth';
+import { useCreateUserWithEmailAndPassword, useSignInWithGoogle, useUpdateProfile } from 'react-firebase-hooks/auth';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import auth from '../../firebase.init';
@@ -15,6 +15,7 @@ const Register = () => {
         loading,
         error,
     ] = useCreateUserWithEmailAndPassword(auth, { sendEmailVerification: true });
+    const [updateProfile, updating, updateError] = useUpdateProfile(auth);
     let signInError;
 
     // useEffect(() => {
@@ -28,18 +29,20 @@ const Register = () => {
         console.dir(user)
     }
 
-    if (error || gError) {
-        signInError = <p className='text-red-600'>{error?.message || gError?.message}</p>
+    if (error || gError || updateError) {
+        signInError = <p className='text-red-600'>{error?.message || gError?.message || updateError?.message}</p>
     }
 
     if (loading || gLoading) {
         return <Loading />
     }
 
-    const onSubmit = data => {
+    const onSubmit = async data => {
         console.log(data);
-        const { email, password } = data;
-        createUserWithEmailAndPassword(email, password)
+        const { email, password, name } = data;
+        await createUserWithEmailAndPassword(email, password)
+        await updateProfile({ displayName: name });
+        navigate('/appointment')
     };
     return (
         <div className='flex justify-center h-[calc(100vh-70px)] items-center'>
@@ -47,7 +50,27 @@ const Register = () => {
                 <div className="card-body items-center text-center">
                     <h2 className="text-2xl font-bold">Sign Up</h2>
                     <form className='w-full' onSubmit={handleSubmit(onSubmit)}>
+                        {/* name field  */}
+                        <div className="form-control w-full max-w-xs">
+                            <label className="label">
+                                <span className="label-text">Name</span>
+                            </label>
+                            <input
+                                type="text"
+                                placeholder="Your Name"
+                                className="input input-bordered w-full max-w-xs"
+                                {...register("name", {
+                                    required: {
+                                        value: true,
+                                        message: 'Name is Required'
+                                    }
+                                })} />
 
+                            <label className="label">
+                                {errors.name?.type === 'required' && <span className="label-text-alt text-red-600">{errors.name.message}</span>}
+                            </label>
+                        </div>
+                        {/* email field  */}
                         <div className="form-control w-full max-w-xs">
                             <label className="label">
                                 <span className="label-text">Email</span>
