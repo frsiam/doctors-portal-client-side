@@ -28,7 +28,7 @@ const Login = () => {
             console.dir(user)
             navigate(from, { replace: true });
         }
-    }, [user, gUser])
+    }, [user, gUser, from, navigate])
 
     if (error || gError) {
         signInError = <p className='text-red-600'>{error?.message || gError?.message}</p>
