@@ -7,55 +7,87 @@ const Login = () => {
     const [signInWithGoogle, user, loading, error] = useSignInWithGoogle(auth);
     const { register, formState: { errors }, handleSubmit } = useForm();
 
-    useEffect(() => {
-        if (user) {
-            console.log(user)
-            console.dir(user)
-        }
-    }, [user])
+    // useEffect(() => {
+    //     if (user) {
+    //         console.log(user)
+    //         console.dir(user)
+    //     }
+    // }, [user])
 
-    const onSubmit = data => console.log(data);
+    const onSubmit = data => {
+        console.log(data);
+    };
 
     return (
         <div className='flex justify-center h-[calc(100vh-70px)] items-center'>
             <div className="card w-96 bg-base-100 shadow-xl">
                 <div className="card-body items-center text-center">
                     <h2 className="text-2xl font-bold">Please Login</h2>
-                    <form onSubmit={handleSubmit(onSubmit)}>
+                    <form className='w-full' onSubmit={handleSubmit(onSubmit)}>
 
-                        <div class="form-control w-full max-w-xs">
-                            <label class="label">
-                                <span class="label-text">Email</span>
+                        <div className="form-control w-full max-w-xs">
+                            <label className="label">
+                                <span className="label-text">Email</span>
                             </label>
-                            <input {...register("email", {
-                                pattern: {
-                                    value: /[A-Za-z]{3}/,
-                                    message: 'error message' // JS only: <p>error message</p> TS only support string
-                                }
-                            })} type="email" placeholder="Your Email" class="input input-bordered w-full max-w-xs" />
-                            <label class="label">
-                                <span class="label-text-alt">Alt label</span>
-                            </label>
-                            {/* Password input field */}
-                            <label class="label">
-                                <span class="label-text">Password</span>
-                            </label>
-                            <input type="password" placeholder="Password" class="input input-bordered w-full max-w-xs" />
-                            <label class="label">
-                                <span class="label-text-alt">Alt label</span>
+                            <input
+                                type="email"
+                                placeholder="Your Email"
+                                className="input input-bordered w-full max-w-xs"
+                                {...register("email", {
+                                    required: {
+                                        value: true,
+                                        message: 'Email is Required'
+                                    },
+                                    pattern: {
+                                        value: /^([\w\d._\-#])+@([\w\d._\-#]+[.][\w\d._\-#]+)+$/,
+                                        message: 'Please enter valid email'
+                                    }
+                                })} />
+
+                            <label className="label">
+                                {errors.email?.type === 'required' && <span className="label-text-alt text-red-600">{errors.email.message}</span>}
+                                {errors.email?.type === 'pattern' && <span className="label-text-alt text-red-600">{errors.email.message}</span>}
                             </label>
                         </div>
-
-                        <input {...register("firstName", { required: true })} />
-                        {errors.firstName?.type === 'required' && "First name is required"}
-
-                        <input {...register("lastName", { required: true })} />
-                        {errors.lastName && "Last name is required"}
-
-                        <input type="submit" />
+                        {/* for password */}
+                        <div className="form-control w-full max-w-xm">
+                            <label className="label">
+                                <span className="label-text">Password</span>
+                            </label>
+                            <input
+                                type="password"
+                                placeholder="Password"
+                                className="input input-bordered w-full max-w-xm"
+                                {...register("password", {
+                                    required: {
+                                        value: true,
+                                        message: 'Password is Required'
+                                    },
+                                    minLength: {
+                                        value: 6,
+                                        message: 'Password should be 6 character !!'
+                                    },
+                                    // pattern: {
+                                    //     value: /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=.\-_*])([a-zA-Z0-9@#$%^&+=*.\-_]){8,}$/,
+                                    //     message: 'Please enter valid password, a number, a lowercase, a uppercase, and a special character.'
+                                    // }
+                                })} />
+                            <label className="label">
+                                {/* password required error */}
+                                {errors.password?.type === 'required' && <span className="label-text-alt text-red-600">{errors.password.message}</span>}
+                                {/* minlength error */}
+                                {errors.password?.type === 'minLength' && <span className="label-text-alt text-red-600">{errors.password.message}</span>}
+                                {/* pattern mismatch error */}
+                                {/* {errors.password?.type === 'pattern' && <span className="label-text-alt text-red-600">{errors.password.message}</span>} */}
+                            </label>
+                        </div>
+                        <input className='btn w-full max-w-xm' type="submit" value='Login' />
                     </form>
+
                     <div className="divider">OR</div>
-                    <button onClick={() => signInWithGoogle()} className="btn btn-outline">Continue with google</button>
+
+                    <button onClick={() => signInWithGoogle()} className="btn btn-outline w-full">Continue with google</button>
+
                 </div>
             </div>
         </div>
