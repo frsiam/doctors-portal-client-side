@@ -20,7 +20,7 @@ const RequirAuth = ({ children }) => {
         // than dropping them off on the home page.
         return <Navigate to="/login" state={{ from: location }} replace />;
     }
-    if (!user.emailVerified) {
+    if (user.providerData[0]?.providerId === 'password' && !user.emailVerified) {
         return (<div className='container mx-auto h-screen flex justify-center items-center flex-col gap-5'>
             <h2 className='text-3xl text-yellow-500'>Your Email is not verified</h2>
             <h1 className='text-2xl text-success'>Please Verify your email</h1>
