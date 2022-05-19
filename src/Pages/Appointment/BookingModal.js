@@ -12,7 +12,7 @@ const BookingModal = ({ treatment, date, setTreatment }) => {
     const handleBooking = (event) => {
         event.preventDefault();
         const slot = event.target.timeSlot.value;
-        console.log(slot)
+        // console.log(slot)
         const booking =
         {
             treatmentId: _id,
@@ -33,8 +33,12 @@ const BookingModal = ({ treatment, date, setTreatment }) => {
         })
             .then(res => res.json())
             .then(data => {
-                console.log(data)
-                toast('Succesfully booking complete');
+                if (data.success) {
+                    toast(`Appointment is set, ${formattedDate} at ${slot}`)
+                }
+                else {
+                    toast.error(`You already have an appointment on ${data.booking?.date} at ${data.booking?.slot}`)
+                }
                 // for close the modal
                 setTreatment(null)
             })
