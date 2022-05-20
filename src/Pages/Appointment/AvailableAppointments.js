@@ -5,14 +5,16 @@ import BookingModal from './BookingModal';
 
 const AvailableAppointments = ({ date, setDate }) => {
     const [bookings, setBookings] = useState([]);
-
     const [treatment, setTreatment] = useState(null);
 
+    const [isReload, setIsReload] = useState(false);
+    const formattedDate = format(date, 'PP')
+
     useEffect(() => {
-        fetch('http://localhost:4000/service')
+        fetch(`http://localhost:4000/available?date=${formattedDate}`)
             .then(res => res.json())
             .then(data => setBookings(data))
-    }, [])
+    }, [formattedDate, isReload])
 
     return (
         <div className='mt-14 lg:mt-16'>
@@ -24,7 +26,9 @@ const AvailableAppointments = ({ date, setDate }) => {
                     bookings.map(booking => <BookingCard key={booking._id} booking={booking} setTreatment={setTreatment} />)
                 }
             </div>
-            {treatment && <BookingModal date={date} treatment={treatment} setTreatment={setTreatment} />}
+            {
+                treatment && <BookingModal isReload={isReload} setIsReload={setIsReload} date={date} treatment={treatment} setTreatment={setTreatment} />
+            }
         </div>
     );
 };
