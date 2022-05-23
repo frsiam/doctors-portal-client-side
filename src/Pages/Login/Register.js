@@ -3,6 +3,7 @@ import { useCreateUserWithEmailAndPassword, useSignInWithGoogle, useUpdateProfil
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import auth from '../../firebase.init';
+import useToken from '../../hooks/useToken';
 import Loading from '../Shared/Loading';
 
 const Register = () => {
@@ -16,33 +17,27 @@ const Register = () => {
         error,
     ] = useCreateUserWithEmailAndPassword(auth, { sendEmailVerification: true });
     const [updateProfile, updating, updateError] = useUpdateProfile(auth);
+
+    const [token] = useToken(user || gUser);
     let signInError;
 
-    // useEffect(() => {
-    //     if (user || gUser) {
-    //         console.log(user)
-    //         console.dir(user)
-    //     }
-    // }, [user, gUser])
-
-    if (user) {
-        console.dir(user)
+    if (token) {
+        // console.dir(user || gUser)
+        navigate('/appointment')
     }
 
     if (error || gError || updateError) {
         signInError = <p className='text-red-600'>{error?.message || gError?.message || updateError?.message}</p>
     }
 
-    if (loading || gLoading) {
+    if (loading || gLoading || updating) {
         return <Loading />
     }
 
     const onSubmit = async data => {
-        console.log(data);
         const { email, password, name } = data;
         await createUserWithEmailAndPassword(email, password)
         await updateProfile({ displayName: name });
-        navigate('/appointment')
     };
     return (
         <div className='flex justify-center h-[calc(100vh-70px)] items-center'>
