@@ -5,8 +5,13 @@ import UserRow from './UserRow';
 
 const Users = () => {
 
-    const { data: users, isLoading } = useQuery(['users'], () =>
-        fetch('http://localhost:4000/user')
+    const { data: users, isLoading, refetch } = useQuery(['users'], () =>
+        fetch('http://localhost:4000/user', {
+            method: 'get',
+            headers: {
+                authorization: `Bearer ${localStorage.getItem('accessToken')}`
+            }
+        })
             .then(res => res.json())
     )
     if (isLoading) {
@@ -29,7 +34,7 @@ const Users = () => {
                     <tbody>
                         {/* <!-- row 1 --> */}
                         {
-                            users.map((user, index) => <UserRow index={index} key={user._id} user={user} />)
+                            users.map((user, index) => <UserRow refetch={refetch} index={index} key={user._id} user={user} />)
                         }
                     </tbody>
                 </table>
