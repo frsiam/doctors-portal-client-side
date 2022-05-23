@@ -1,21 +1,15 @@
 import { format } from 'date-fns';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useQuery } from 'react-query';
 import Loading from '../Shared/Loading';
 import BookingCard from './BookingCard';
 import BookingModal from './BookingModal';
 
 const AvailableAppointments = ({ date, setDate }) => {
-    // const [bookings, setBookings] = useState([]);
     const [treatment, setTreatment] = useState(null);
 
     const formattedDate = format(date, 'PP')
 
-    // useEffect(() => {
-    //     fetch(`http://localhost:4000/available?date=${formattedDate}`)
-    //         .then(res => res.json())
-    //         .then(data => setBookings(data))
-    // }, [formattedDate, isReload])
     const { data: bookings, isLoading, refetch } = useQuery(['available', formattedDate], () =>
         fetch(`http://localhost:4000/available?date=${formattedDate}`)
             .then(res => res.json())
